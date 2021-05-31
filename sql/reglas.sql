@@ -33,6 +33,7 @@ SET ledBy = (
     SELECT pId
     FROM Doctor AS d
     WHERE d.works = old.works
+    ORDER BY d.yearsExperience DESC
     LIMIT 1
 )
 WHERE ledBy = new.pId
