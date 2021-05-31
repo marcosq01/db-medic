@@ -32,7 +32,7 @@ DO UPDATE Area
 SET ledBy = (
     SELECT pId
     FROM Doctor AS d
-    WHERE d.works = old.works
+    WHERE d.works = old.works AND d.pId != old.pId
     ORDER BY d.yearsExperience DESC
     LIMIT 1
 )
