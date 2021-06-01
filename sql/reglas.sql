@@ -107,6 +107,17 @@
     WHERE EXISTS(SELECT * FROM Patient p WHERE p.pId = new.receivedBy AND p.insurancePlan = 'Premium') AND EXISTS(SELECT * FROM Doctor d WHERE d.pId = new.prescribedBy AND d.works = 'Radiology')
     DO NOTHING;
 
+--Basic Insurance covers only General Medicine, Obstetrics and Pediatrics.
+    CREATE RULE regla_insert_basic_plan
+    AS ON INSERT TO Treatment
+    WHERE EXISTS(SELECT * FROM Patient p WHERE p.pId = new.receivedBy AND p.insurancePlan = 'Basic') AND EXISTS(SELECT * FROM Doctor d WHERE d.pId = new.prescribedBy AND (d.works = 'Radiology' OR d.works = 'Traumatology' OR d.works = 'Allergology' OR d.works = 'Cardiology' OR d.works = 'Gerontology'))
+    DO NOTHING;
+
+    CREATE RULE regla_update_basic_plan
+    AS ON UPDATE TO Treatment
+    WHERE EXISTS(SELECT * FROM Patient p WHERE p.pId = new.receivedBy AND p.insurancePlan = 'Basic') AND EXISTS(SELECT * FROM Doctor d WHERE d.pId = new.prescribedBy AND (d.works = 'Radiology' OR d.works = 'Traumatology' OR d.works = 'Allergology' OR d.works = 'Cardiology' OR d.works = 'Gerontology'))
+    DO NOTHING;
+
 -- INSERT INTO Doctor VALUES(123, '{"General Medicine", "Traumatology"}',1,100,'General Medicine');
 -- INSERT INTO Doctor VALUES(777, '{"Allergology", "Traumatology"}',0,50,"General Medicine");
 
