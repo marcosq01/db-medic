@@ -35,7 +35,7 @@ create table Doctor (
 CREATE TABLE Area (
     name     speciality_t,
     location varchar(30),
-    ledBy    int REFERENCES Doctor(pId),
+    ledBy    int,
     PRIMARY KEY (name)
 );
 
