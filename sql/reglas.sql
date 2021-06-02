@@ -109,7 +109,11 @@
 
     CREATE RULE regla_update_basic_plan
     AS ON UPDATE TO Treatment
-    WHERE EXISTS(SELECT * FROM Patient p WHERE p.pId = new.receivedBy AND p.insurancePlan = 'Basic') AND EXISTS(SELECT * FROM Doctor d WHERE d.pId = new.prescribedBy AND (d.works in ('Radiology', 'Traumatology', 'Allergology', 'Cardiology', 'Gerontology')))
+    WHERE EXISTS(SELECT *
+     FROM Patient p 
+     WHERE p.pId = new.receivedBy AND 
+     p.insurancePlan = 'Basic') 
+    AND EXISTS(SELECT * FROM Doctor d WHERE d.pId = new.prescribedBy AND (d.works in ('Radiology', 'Traumatology', 'Allergology', 'Cardiology', 'Gerontology')))
     DO NOTHING;
 
 -- INSERT INTO Doctor VALUES(123, '{"General Medicine", "Traumatology"}',1,100,'General Medicine');
@@ -119,3 +123,23 @@
 -- DELETE FROM Area;
 -- DROP RULE regla_specialities_area ON Doctor;
 -- SELECT * FROM Doctor;
+
+-- Evitar mismo pId en person, doctor y patient
+
+    CREATE RULE regla_pId_doctor
+    AS ON INSERT TO Doctor
+    WHERE new.pId IN (
+            SELECT pId FROM person
+        )
+    DO INSTEAD NOTHING;
+
+    CREATE RULE regla_pId_patient
+    AS ON INSERT TO Patient
+    WHERE new.pId IN (
+            SELECT pId FROM person
+        )
+    DO INSTEAD NOTHING;
+
+
+
+    -- DROP RULE regla_pId_patient ON patient
