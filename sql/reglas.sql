@@ -1,6 +1,9 @@
 -- ponerle buenos nombres a las reglas
 
+
+
 --The database consist of information of people that can be patients or doctors, but not both
+
     CREATE RULE regla_update_disjoint_patient
     AS ON UPDATE TO Patient
     WHERE new.pId IN (
@@ -38,7 +41,7 @@
         WHERE new.ledBy = d.pId
     )
     DO NOTHING; -- o que imprima un mensaje, no se
-    -- 
+
     CREATE RULE regla_insert_doctor_lider2 
     AS ON INSERT TO Area
     WHERE new.name NOT IN (
@@ -56,17 +59,7 @@
     SET salary = old.salary * POWER(1.1, (new.yearsExperience - old.yearsExperience)/2)
     WHERE pId = old.pId;
 
-    CREATE RULE regla_incremento_salario_experiencia
-    AS ON INSERT TO Doctor
-    WHERE new.yearsExperience > old.yearsExperience and new.yearsExperience > 0 AND (new.yearsExperience % 2 = 0)
-    DO UPDATE Doctor
-    SET salary = old.salary * POWER(1.1, (new.yearsExperience - old.yearsExperience)/2)
-    WHERE pId = old.pId;
-
--- It is possible that a doctor changes his/her Area with in the hospital.
--- If the doctorwas the leader of the original area, then such an area mustselect a new leader.
-
-    CREATE RULE regla_3
+    CREATE RULE regla_update_work
     AS ON UPDATE TO Doctor
     WHERE old.works != new.works and old.works IN (
         SELECT name
@@ -82,6 +75,7 @@
         LIMIT 1
     )
     WHERE ledBy = new.pId
+
 
 -- SET SYNTAX '{"x", "y"}'
 
@@ -110,12 +104,12 @@
 --Basic Insurance covers only General Medicine, Obstetrics and Pediatrics.
     CREATE RULE regla_insert_basic_plan
     AS ON INSERT TO Treatment
-    WHERE EXISTS(SELECT * FROM Patient p WHERE p.pId = new.receivedBy AND p.insurancePlan = 'Basic') AND EXISTS(SELECT * FROM Doctor d WHERE d.pId = new.prescribedBy AND (d.works in ('Radiology', 'Traumatology', 'Allergology', 'Cardiology', 'Gerontology'))
+    WHERE EXISTS(SELECT * FROM Patient p WHERE p.pId = new.receivedBy AND p.insurancePlan = 'Basic') AND EXISTS(SELECT * FROM Doctor d WHERE d.pId = new.prescribedBy AND (d.works in ('Radiology', 'Traumatology', 'Allergology', 'Cardiology', 'Gerontology')))
     DO NOTHING;
 
     CREATE RULE regla_update_basic_plan
     AS ON UPDATE TO Treatment
-    WHERE EXISTS(SELECT * FROM Patient p WHERE p.pId = new.receivedBy AND p.insurancePlan = 'Basic') AND EXISTS(SELECT * FROM Doctor d WHERE d.pId = new.prescribedBy AND (d.works in ('Radiology', 'Traumatology', 'Allergology', 'Cardiology', 'Gerontology'))
+    WHERE EXISTS(SELECT * FROM Patient p WHERE p.pId = new.receivedBy AND p.insurancePlan = 'Basic') AND EXISTS(SELECT * FROM Doctor d WHERE d.pId = new.prescribedBy AND (d.works in ('Radiology', 'Traumatology', 'Allergology', 'Cardiology', 'Gerontology')))
     DO NOTHING;
 
 -- INSERT INTO Doctor VALUES(123, '{"General Medicine", "Traumatology"}',1,100,'General Medicine');

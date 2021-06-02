@@ -1,4 +1,4 @@
--- CREATE DATABASE medicpatient;
+--CREATE DATABASE TareaObjetosRelacional;
 
 -- Primero creamos los tipos necesarios para los planes y para especialidades
 CREATE TYPE insurancePlan_t AS ENUM('Unlimited', 'Premium', 'Basic');
