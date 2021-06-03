@@ -1,8 +1,3 @@
-SELECT * FROM person;
-SELECT * FROM patient;
-SELECT * From doctor;
-SELECT * FROM area;
-
 -- Poblar la tabla person (participacion parcial)
 INSERT INTO Person VALUES (1, 'Elsa', 'Dillon', '1971-07-13', 'F'), 
                           (2, 'Neo', 'Moses', '1985-02-10', 'M'), 
@@ -10,6 +5,8 @@ INSERT INTO Person VALUES (1, 'Elsa', 'Dillon', '1971-07-13', 'F'),
                           (4, 'Javan', 'Ramirez', '1986-05-18', 'M'), 
                           (5, 'Markus', 'Mcarthur', '1997-03-07', 'M'),
                           (6, 'Pola', 'Coles', '1963-06-19', 'F');
+
+-- INSERT INTO patient VALUES (1, 'Lionel', 'Messi', '1987-06-24', 'M', 'Unlimited')
 
 -- Poblar la tabla patient
 INSERT INTO patient VALUES (7, 'Lionel', 'Messi', '1987-06-24', 'M', 'Unlimited'), 
@@ -22,10 +19,10 @@ INSERT INTO patient VALUES (7, 'Lionel', 'Messi', '1987-06-24', 'M', 'Unlimited'
 -- DELETE FROM Area WHERE (name = 'Obstetrics')
 
 -- Poblar tabla Area (dejando quien lidera en vacio)
-INSERT INTO area VALUES ('Cardiology', 'Building 3', 13),
-                        ('General Medicine', 'Main Building', 19), 
-                        ('Allergology', 'Building 2', 17),
-                        ('Radiology', '13th Floor', 15);
+INSERT INTO area (name, location) VALUES ('Cardiology', 'Building 3'),
+                        ('General Medicine', 'Main Building'), 
+                        ('Allergology', 'Building 2'),
+                        ('Radiology', '13th Floor');
 
 -- Poblar la tabla doctor 
 INSERT INTO doctor VALUES (13, 'Marcos', 'Quintero', '1999-11-06', 'M', '{"Cardiology", "General Medicine"}', 3, 120000, 'Cardiology'),
@@ -38,9 +35,21 @@ INSERT INTO doctor VALUES (13, 'Marcos', 'Quintero', '1999-11-06', 'M', '{"Cardi
 
 
 -- Añadir quien lidera cada departamento
--- UPDATE area SET ledby = 13 WHERE name = 'Cardiology';
--- UPDATE area SET ledby = 19 WHERE name = 'General Medicine';
--- UPDATE area SET ledby = 17 WHERE name = 'Radiology';
--- UPDATE area SET ledby = 15 WHERE name = 'Allergology';
+ UPDATE area SET ledby = 13 WHERE name = 'Cardiology';
+ UPDATE area SET ledby = 19 WHERE name = 'General Medicine';
+ UPDATE area SET ledby = 17 WHERE name = 'Radiology';
+ UPDATE area SET ledby = 15 WHERE name = 'Allergology';
 
 -- Poblar tabla treatment
+INSERT INTO treatment VALUES (7, 13, 60, '{"Colecalciferol"}', 'Tomar cada 8 horas'),
+                             (9, 15, 15, '{"Clonazepam"}', 'Tomar 1 cada dos dias'),
+                             (12, 19, 2, '{"Amoxicilina"}', 'Tomar cada 12 horas'),
+                             (11, 19, 4, '{"Atorvastatina"}', 'Tomar cada 6 horas'),
+                             (10, 17, 7, '{"Warfarina sódica"}', 'Tomar cada 8 horas'),
+                             (8, 19, 20, '{"Paracetamol"}', 'Tomar una cada 2 dias');
+
+SELECT * FROM person;
+SELECT * FROM patient;
+SELECT * From doctor;
+SELECT * FROM area;
+SELECT * FROM treatment
