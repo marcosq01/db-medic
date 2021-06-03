@@ -29,7 +29,7 @@ CREATE TABLE Patient (
 CREATE TABLE Area (
     name     speciality_t,
     location varchar(30),
-    ledBy    int not null,
+    ledBy    int,
     PRIMARY KEY (name)
 );
 
