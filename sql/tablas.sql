@@ -26,13 +26,6 @@ CREATE TABLE Patient (
     PRIMARY KEY (pId)
 ) INHERITS (Person);
 
-create table Doctor (
-    specialities    speciality_t[],
-    yearsExperience int,
-    salary          float,
-    PRIMARY KEY (pId)
-) INHERITS (Person);
-
 CREATE TABLE Area (
     name     speciality_t,
     location varchar(30),
@@ -40,8 +33,14 @@ CREATE TABLE Area (
     PRIMARY KEY (name)
 );
 
--- necesita ir despues del create table de Area
-ALTER TABLE Doctor ADD COLUMN works speciality_t REFERENCES Area(name);
+create table Doctor (
+    specialities    speciality_t[],
+    yearsExperience int,
+    salary          float,
+    works           speciality_t REFERENCES Area(name),
+    PRIMARY KEY (pId)
+) INHERITS (Person);
+
 
 CREATE TABLE Treatment (
     receivedBy   int REFERENCES Patient(pId),
