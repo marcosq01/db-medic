@@ -45,7 +45,7 @@ create table Doctor (
 CREATE TABLE Treatment (
     receivedBy   int REFERENCES Patient(pId),
     prescribedBy int REFERENCES Doctor(pId),
-    duration     int,
+    duration     int, -- en dias
     medicaments  varchar(25)[],
     description  varchar(80)
 )

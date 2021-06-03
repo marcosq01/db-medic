@@ -44,7 +44,7 @@
 
     CREATE RULE regla_insert_doctor_lider
     AS ON INSERT TO Area
-    WHERE new.name NOT IN (
+    WHERE new.ledBy is not null and new.name NOT IN (
         SELECT d.works
         FROM Doctor AS d
         WHERE new.ledBy = d.pId
