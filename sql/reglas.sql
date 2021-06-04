@@ -56,7 +56,7 @@
     AS ON UPDATE TO Doctor
     WHERE new.yearsExperience > old.yearsExperience and new.yearsExperience > 0 AND (new.yearsExperience % 2 = 0)
     DO UPDATE Doctor
-    SET salary = old.salary * POWER(1.1, (new.yearsExperience - old.yearsExperience)/2)
+    SET salary = old.salary * POWER(1.1, (new.yearsExperience - old.yearsExperience)/2.0)
     WHERE pId = old.pId;
 
 
